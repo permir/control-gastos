@@ -84,30 +84,32 @@ function actualizarGrafico() {
   const labels = Object.keys(categorias);
   const data = Object.values(categorias);
 
-  const ctx = document.getElementById('graficoCategorias').getContext('2d');
+  const ctx = document.getElementById('graficoCategorias');
+if (!ctx) return; // <- Evita errores si no existe el canvas
 
-  if (grafico) {
-    grafico.destroy();
+const context = ctx.getContext('2d');
+
   }
 
-  grafico = new Chart(ctx, {
-    type: 'pie',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Gastos por Categoría',
-        data: data,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom'
-        }
+grafico = new Chart(context, {
+  type: 'pie',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Gastos por Categoría',
+      data: data,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom'
       }
     }
-  });
+  }
+});
+
 }
 
 cargarGastos();
