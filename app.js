@@ -31,7 +31,7 @@ function actualizarLista() {
   listaGastos.innerHTML = '';
   gastos.forEach((gasto, index) => {
     const li = document.createElement('li');
-    li.textContent = \`\${gasto.categoria} – \${gasto.descripcion}: $\${gasto.cantidad.toFixed(2)}\`;
+    li.textContent = `${gasto.categoria} – ${gasto.descripcion}: $${gasto.cantidad.toFixed(2)}`;
 
     const btnEliminar = document.createElement('button');
     btnEliminar.textContent = '❌';
@@ -81,35 +81,32 @@ function actualizarGrafico() {
     categorias[gasto.categoria] += gasto.cantidad;
   });
 
-  const labels = Object.keys(categorias);
-  const data = Object.values(categorias);
-
   const ctx = document.getElementById('graficoCategorias');
-if (!ctx) return; // <- Evita errores si no existe el canvas
+  if (!ctx) return;
+  const context = ctx.getContext('2d');
 
-const context = ctx.getContext('2d');
-
+  if (grafico) {
+    grafico.destroy();
   }
 
-grafico = new Chart(context, {
-  type: 'pie',
-  data: {
-    labels: labels,
-    datasets: [{
-      label: 'Gastos por Categoría',
-      data: data,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom'
+  grafico = new Chart(context, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(categorias),
+      datasets: [{
+        label: 'Gastos por Categoría',
+        data: Object.values(categorias),
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
       }
     }
-  }
-});
-
+  });
 }
 
 cargarGastos();
